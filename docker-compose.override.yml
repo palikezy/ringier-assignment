@@ -1,0 +1,12 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    ports:
+      - "8000:80"
+
+  ollama:
+    build:
+      context: .
+      dockerfile: ./docker/ollama/Dockerfile

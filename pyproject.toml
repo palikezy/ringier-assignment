@@ -1,0 +1,29 @@
+[tool.poetry]
+package-mode = false
+name = "ringier-assignment"
+version = "0.1.0"
+description = ""
+authors = ["Pavol Ondrejka <palo.ondrejka@gmail.com>"]
+license = "Unlicense"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "0.115.5"}
+pydantic-settings = "^2.6.1"
+ollama = "^0.4.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ['py312']
+
+[tool.isort]
+profile = "black"

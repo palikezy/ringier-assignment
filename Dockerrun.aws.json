@@ -1,0 +1,32 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "ollama",
+            "image": "palikezy/ringier-assignment-ollama:latest",
+            "essential": true,
+            "memory": 800
+        },
+        {
+            "name": "app",
+            "image": "palikezy/ringier-assignment-app:latest",
+            "environment": [
+                {
+                    "name": "OLLAMA_URL",
+                    "value": "http://localhost:11434"
+                }
+            ],
+            "essential": true,
+            "memory": 200,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "ollama"
+            ]
+        }
+    ]
+}
