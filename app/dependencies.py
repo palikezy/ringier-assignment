@@ -1,6 +1,9 @@
+import json
 from enum import StrEnum
 
 from pydantic import BaseModel
+
+type JsonType = dict[str, JsonType] | list[JsonType] | str | float | int | bool | None
 
 
 class Locale(StrEnum):
@@ -32,7 +35,8 @@ STYLE_MAPPING: dict[Style, str] = {
 }
 
 
-def create_prompt(locale: Locale, style: Style, forecast_json: str) -> str:
+def create_prompt(locale: Locale, style: Style, data: JsonType) -> str:
+    data_json = json.dumps(data, indent=4)
     return (
         f"Write an article in {LANGUAGE_MAPPING[locale]} language about today's weather forecast, "
         f"use {STYLE_MAPPING[style]} style, "
@@ -41,5 +45,5 @@ def create_prompt(locale: Locale, style: Style, forecast_json: str) -> str:
         # f"generate the article's lead paragraph on the second line, "
         # f"generate the article's body starting with third line, "
         f"do not annotate article parts, "
-        f"use the following JSON metadata as a source of information:\n\n{forecast_json}\n"
+        f"use the following JSON metadata as a source of information:\n\n{data_json}\n"
     )

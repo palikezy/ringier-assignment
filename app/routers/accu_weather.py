@@ -6,7 +6,7 @@ from fastapi import APIRouter, HTTPException
 from ollama import AsyncClient
 
 from app.config import settings
-from app.dependencies import Locale, ResponseModel, Style, create_prompt
+from app.dependencies import JsonType, Locale, ResponseModel, Style, create_prompt
 
 router = APIRouter()
 
@@ -26,8 +26,6 @@ OMITTED_KEYS = {
     "Link",
 }
 
-type JsonType = dict[str, JsonType] | list[JsonType] | str | float | int | bool | None
-
 
 def clean_data(data: JsonType) -> JsonType:
     if isinstance(data, dict):
@@ -37,8 +35,8 @@ def clean_data(data: JsonType) -> JsonType:
     return data
 
 
-@router.get("/forecast_today", responses={404: {"description": "Location not found"}})
-async def forecast_today(
+@router.get("/forecast_1_day", responses={404: {"description": "Location not found"}})
+async def forecast_1_day(
     location: str,
     locale: Locale = Locale.en,
     style: Style = Style.tabloid,
@@ -72,9 +70,8 @@ async def forecast_today(
 
     forecast_cleaned = clean_data(forecast["DailyForecasts"][0])
     forecast_cleaned["Location"] = "Bratislava"
-    forecast_json = json.dumps(forecast_cleaned, indent=4)
 
-    prompt = create_prompt(locale, style, forecast_json)
+    prompt = create_prompt(locale, style, forecast_cleaned)
     ollama_client = AsyncClient(host=settings.ollama_url)
     response = await ollama_client.generate(model=settings.llm_model, prompt=prompt, stream=False)
     text = response["response"]
