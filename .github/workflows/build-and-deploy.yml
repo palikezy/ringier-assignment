@@ -27,6 +27,8 @@ jobs:
         with:
           file: docker/ollama/Dockerfile
           platforms: linux/amd64,linux/arm64
+          cache-from: type=registry,ref=user/app:latest
+          cache-to: type=inline
           push: true
           tags: palikezy/ringier-assignment-ollama:latest
 
@@ -35,6 +37,8 @@ jobs:
         with:
           file: docker/app/Dockerfile
           platforms: linux/amd64,linux/arm64
+          cache-from: type=registry,ref=user/app:latest
+          cache-to: type=inline
           push: true
           tags: palikezy/ringier-assignment-app:latest
 
