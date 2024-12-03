@@ -3,6 +3,8 @@ services:
     image: palikezy/ringier-assignment-app:latest
     environment:
       - OLLAMA_URL=http://ollama:11434
+    env_file:
+      - .env
     ports:
       - "80:80"
 
