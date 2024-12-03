@@ -2,14 +2,15 @@ from datetime import date
 from enum import StrEnum
 
 import httpx
-import ollama
 from fastapi import APIRouter, Depends
+from ollama import Client
 from pydantic import BaseModel
 
 from app.config import settings
 from app.dependencies import JsonType, Locale, ResponseModel, Style, create_prompt
 
 router = APIRouter()
+client = Client(host=settings.ollama_url)
 
 
 class Coordinates(BaseModel):
@@ -76,7 +77,6 @@ def forecast_1_day_by_coordinates(
     locale: Locale = Locale.en,
     style: Style = Style.tabloid,
 ) -> dict:
-    # TODO: Make timezone customizable
     text = get_forecast_1_day_text(
         coordinates,
         timezone,
@@ -126,7 +126,6 @@ def forecast_history_by_coordinates(
     locale: Locale = Locale.en,
     style: Style = Style.tabloid,
 ) -> ResponseModel:
-    # TODO: Make timezone customizable
     text = get_forecast_history_text(
         coordinates,
         timezone,
@@ -180,7 +179,8 @@ def get_forecast_1_day_text(
     )
     data = clean_data(response.raise_for_status().json())
     prompt = create_prompt(locale, style, data)
-    response = ollama.generate(model=settings.llm_model, prompt=prompt, stream=False)
+    client = Client(host=settings.ollama_url)
+    response = client.generate(model=settings.llm_model, prompt=prompt, stream=False)
     return response["response"]
 
 
@@ -222,5 +222,5 @@ def get_forecast_history_text(
     )
     data = clean_data(response.raise_for_status().json())
     prompt = create_prompt(locale, style, data)
-    response = ollama.generate(model=settings.llm_model, prompt=prompt, stream=False)
+    response = client.generate(model=settings.llm_model, prompt=prompt, stream=False)
     return response["response"]
