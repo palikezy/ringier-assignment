@@ -50,12 +50,12 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
 
-      # TODO: Move to AWS
-      - name: Add environment for containers
-        env:
-          FORECAST_API_KEY: ${{ secrets.FORECAST_API_KEY }}
-        run: |
-          echo "$FORECAST_API_KEY" >> .env
+      # # TODO: Move to AWS
+      # - name: Add environment for containers
+      #   env:
+      #     FORECAST_API_KEY: ${{ secrets.FORECAST_API_KEY }}
+      #   run: |
+      #     echo "$FORECAST_API_KEY" >> .env
 
       - name: Generate deployment package
         run: zip $GITHUB_SHA.zip docker-compose.yml .env

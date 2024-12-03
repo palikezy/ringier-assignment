@@ -10,3 +10,5 @@ services:
 
   ollama:
     image: palikezy/ringier-assignment-ollama:latest
+    env_file:
+      - .env
