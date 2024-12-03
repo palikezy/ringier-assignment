@@ -41,6 +41,7 @@ def create_prompt(locale: Locale, style: Style, data: JsonType) -> str:
         f"Write an article in {LANGUAGE_MAPPING[locale]} language about today's weather forecast, "
         f"use {STYLE_MAPPING[style]} style, "
         f"respond in plain text, "
+        # TODO: Fix section generation
         # f"generate the article's title on the first line, "
         # f"generate the article's lead paragraph on the second line, "
         # f"generate the article's body starting with third line, "
