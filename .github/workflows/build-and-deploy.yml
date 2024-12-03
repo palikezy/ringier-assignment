@@ -67,6 +67,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: ringier-assignment
           environment_name: ringier-assignment-env
-          version_label: $GITHUB_SHA
+          version_label: ${{ github.sha }}
           region: eu-central-1
-          deployment_package: $GITHUB_SHA.zip
+          deployment_package: ${{ github.sha }}.zip
